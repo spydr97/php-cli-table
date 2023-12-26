@@ -1,6 +1,6 @@
 # PHP CLI Table
-
 ---
+![example branch parameter](https://github.com/spydr97/php-cli-table/actions/workflows/phpcs.yml/badge.svg?branch=main)
 
 ![example.png](example.png)
 
