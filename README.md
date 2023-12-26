@@ -1,2 +1,138 @@
 # PHP CLI Table
 
+---
+
+This project's functionality was inspired by https://github.com/jc21/clitable and was created because I wanted
+additional functionality. The code has undergone a full re-write with a bunch of changes to behaviour and 
+functionality
+
+## Features
+
+- Print table with just an associative array of data
+- Define custom table columns
+- Create formatters for fields using closures
+- Colorize headers, columns, rows and individual cells conditionally using closures
+- *[Not well tested]* Colorize text within a table cell
+
+## Requirements
+
+- PHP 8.1 or higher
+- [Composer set up in the desired project](https://getcomposer.org/doc/01-basic-usage.md)
+- A CLI environment to run PHP scripts
+
+## Installation
+
+```shell
+composer require spydr97/php-cli-table
+```
+
+
+## Usage
+
+### Basic Usage
+For detailed examples and more complex usage please see the scripts in the example folder
+The bare minimum required to render a table is the following.
+```php
+use Spydr97\PhpCliTable\CliTableBuilder;
+
+$data = [
+    [
+        'id' => 1,
+        'name' => 'Hello',
+    ],
+    [
+        'id' => 2,
+        'text' => 'World',
+    ],
+];
+
+(new CliTableBuilder())
+    ->setData($data)
+    ->build();
+```
+
+### Colors
+
+Colors are defined in the `\Spydr97\PhpCliTable\TextColorEnum` class. The following colors are available
+
+- `TextColorEnum::BLACK`
+- `TextColorEnum::WHITE`
+- `TextColorEnum::DARK_RED`
+- `TextColorEnum::RED`
+- `TextColorEnum::DARK_GREEN`
+- `TextColorEnum::GREEN`
+- `TextColorEnum::DARK_YELLOW`
+- `TextColorEnum::YELLOW`
+- `TextColorEnum::DARK_BLUE`
+- `TextColorEnum::BLUE`
+- `TextColorEnum::DARK_CYAN`
+- `TextColorEnum::CYAN`
+- `TextColorEnum::LIGHT_GREY`
+- `TextColorEnum::DARK_GREY`
+- `TextColorEnum::RESET`
+
+### Data
+
+In addition to data fields, each row can have a `_color` (`DataConstants::DATA_COLOR`) property which defines the 
+color of the particular row. This can either be of type `TextColorEnum` or `Closure`. If a `TextColorEnum` is used 
+then the color is applied on the whole row. If a `Closure` is used the color can either be applied to the whole 
+row or to specific fields.
+
+A `DataConstants::DATA_COLOR` closure is provided two params, `$datum` amd `$field` which correspond to the current 
+data row item and column field definition respectively. The return type of this closure must be either a 
+`TextColorEnum` or `null`.
+
+e.g. This closure sets the color of every column for the particular row to `BLUE` except the `text` column which 
+is left as the configured default (i.e. not overridden).
+```php
+use \Spydr97\PhpCliTable\Constants\DataConstants;
+...
+$data = [
+   ...
+   DataConstants::DATA_COLOR => function (array $datum, array $field): ?TextColorEnum {
+            if ($field[FieldConstants::FIELD_KEY] == 'text') {
+                return null;
+            }
+            return TextColorEnum::BLUE;
+        }
+]
+```
+
+### Fields
+
+Fields can have the following properties defined. 
+
+| Property Name | Type                           | Closure Return Type         | Required | FieldConstant        |
+|---------------|--------------------------------|-----------------------------|----------|----------------------|
+| Key           | `String`                       | ---                         | `true`   | `FIELD_KEY`          |
+| Name          | `String`                       | ---                         | `false`  | `FIELD_NAME`         |
+| Column Color  | `TextColorEnum` <br/>`Closure` | `TextColorEnum` <br/>`null` | `false`  | `FIELD_COLUMN_COLOR` |
+| Header Color  | `TextColorEnum` <br/>`Closure` | `TextColorEnum` <br/>`null` | `false`  | `FIELD_HEADER_COLOR` |
+| Formatter     | `Closure`                      | `String`                    | `false`  | `FIELD_FORMATTER`    |
+
+The closure definitions for the above Closures are as follows:
+
+```php
+use Spydr97\PhpCliTable\Constants\FieldConstants;
+...
+$fields = [
+    ...
+    [
+        ...
+        FieldConstants::FIELD_HEADER_COLOR => function (array $field): ?TextColorEnum {
+            return TextColorEnum::DARK_RED;
+        },
+       
+        FieldConstants::FIELD_COLUMN_COLOR => function (array $datum, array $field): ?TextColorEnum {
+            return TextColorEnum::DARK_RED;
+        },
+       
+        FieldConstants::FIELD_FORMATTER => function (array $datum, array $field): string {
+            return strtoupper($datum[$field[FieldConstants::FIELD_KEY]]);
+        },
+        ...
+    ]
+]
+
+```
+Please note that the `FieldConstants::FIELD_HEADER_COLOR` closure only has a single parameter `$field`. 
