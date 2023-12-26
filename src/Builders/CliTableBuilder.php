@@ -205,7 +205,10 @@ class CliTableBuilder
                     }
                 }
                 $current_field_value = StringFormatHelper::removeAnsiCharsFromString($current_field_value);
-                $column_widths[$field_key] = max($column_widths[$field_key], strlen($current_field_value) + 2);
+                $current_field_values = StringFormatHelper::splitStringOnNewLine($current_field_value);
+                foreach ($current_field_values as $effective_field_value) {
+                    $column_widths[$field_key] = max($column_widths[$field_key], strlen($effective_field_value) + 2);
+                }
             }
             $field_name = $field[FieldConstants::FIELD_NAME] ?? StringFormatHelper::snakeCaseToTitleCase($field[FieldConstants::FIELD_KEY]);
             if (isset($column_widths[$field[FieldConstants::FIELD_KEY]])) {
