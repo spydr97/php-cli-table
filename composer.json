@@ -3,6 +3,10 @@
     "description": "A simple library to create clean table outputs in PHP CLI scripts",
     "license": ["MIT"],
     "type": "library",
+    "scripts": {
+        "fix-phpcs": "./vendor/bin/phpcbf --ignore=vendor --standard=spydr97  --extensions=php .",
+        "test-phpcs": "./vendor/bin/phpcs --ignore=vendor --standard=spydr97  --extensions=php --colors ."
+    },
     "autoload": {
         "psr-4": {
             "Spydr97\\PhpCliTable\\": "src/"

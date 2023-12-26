@@ -1,7 +1,7 @@
 .PHONY: fix-phpcs test-phpcs
 
 fix-phpcs:
-	./vendor/bin/phpcbf --ignore=vendor --standard=spydr97  --extensions=php .
+	php composer.phar run-script fix-phpcs
 
 test-phpcs:
-	./vendor/bin/phpcs --ignore=vendor --standard=spydr97  --extensions=php --colors .
+	php composer.phar run-script test-phpcs

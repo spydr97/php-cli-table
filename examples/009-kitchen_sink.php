@@ -42,7 +42,7 @@ $fields = [
                 return TextColorEnum::YELLOW;
             }
             return null;
-        }
+        },
     ],
     [
         FieldConstants::FIELD_KEY => 'completed',
