@@ -1,6 +1,7 @@
 {
     "name": "spydr97/php-cli-table",
     "description": "A simple library to create clean table outputs in PHP CLI scripts",
+    "license": ["MIT"],
     "type": "library",
     "autoload": {
         "psr-4": {
@@ -8,7 +9,10 @@
         }
     },
     "minimum-stability": "stable",
+    "require": {
+        "php": "^8.1"
+    },
     "require-dev": {
-        "spydr97/phpcs": "^1.0.0"
+        "spydr97/phpcs": "^1.0.1"
     }
 }
