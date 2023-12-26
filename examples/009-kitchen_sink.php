@@ -11,24 +11,25 @@ $data = [
     [
         'id' => 4,
         'todo' => "Contribute code or a monetary donation\nto an " . TextColorEnum::GREEN->value . "open-source" . TextColorEnum::RESET->value . " software project",
-        'interpolated_colors' => 'Some ' . TextColorEnum::DARK_RED->value . 'RED' . TextColorEnum::RESET->value . ' Text',
+        'completed' => false,
     ],
     [
         'id' => 24,
         'todo' => 'Improve touch typing',
-        '_color' => TextColorEnum::DARK_BLUE,
+        'completed' => false,
     ],
     [
         'id' => 25,
         'todo' => 'Learn PHP',
+        'completed' => true,
     ],
 ];
 
 $fields = [
     [
         FieldConstants::FIELD_KEY => 'id',
-        FieldConstants::FIELD_COLUMN_COLOR => TextColorEnum::MAGENTA,
-        FieldConstants::FIELD_HEADER_COLOR => TextColorEnum::GREEN,
+        FieldConstants::FIELD_COLUMN_COLOR => TextColorEnum::BLUE,
+        FieldConstants::FIELD_HEADER_COLOR => TextColorEnum::DARK_GREY,
     ],
     [
         FieldConstants::FIELD_NAME => 'To-do',
@@ -43,6 +44,19 @@ $fields = [
             return null;
         }
     ],
+    [
+        FieldConstants::FIELD_KEY => 'completed',
+        FieldConstants::FIELD_FORMATTER => function ($datum): string {
+            return $datum['completed'] == 1 ? "YES" : "NO";
+        },
+        FieldConstants::FIELD_COLUMN_COLOR => function ($datum): TextColorEnum {
+            return match ($datum['completed']) {
+                'YES' => TextColorEnum::GREEN,
+                'NO' => TextColorEnum::RED,
+                default => TextColorEnum::WHITE
+            };
+        },
+    ],
 ];
 
 (new CliTableBuilder())
@@ -50,5 +64,4 @@ $fields = [
     ->setFields($fields)
     ->setBorderColor(TextColorEnum::DARK_CYAN)
     ->setShowHeader(true)
-    ->setEmptyCellPlaceholder('---')
     ->build();
