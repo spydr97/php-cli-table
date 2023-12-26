@@ -2,13 +2,15 @@
 
 ---
 
-This project's functionality was inspired by https://github.com/jc21/clitable and was created because I wanted
-additional functionality. The code has undergone a full re-write with a bunch of changes to behaviour and 
-functionality
+![example.png](example.png)
+
+This project's functionality was inspired by [clitable](https://github.com/jc21/clitable) 
+and was created because I wanted some additional functionality. The code has undergone 
+a full re-write with a bunch of changes to behaviour and functionality
 
 ## Features
 
-- Print table with just an associative array of data
+- Print table from data array without defining additional config
 - Define custom table columns
 - Create formatters for fields using closures
 - Colorize headers, columns, rows and individual cells conditionally using closures
