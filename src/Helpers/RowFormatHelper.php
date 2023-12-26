@@ -60,18 +60,17 @@ class RowFormatHelper
 
     private static function getTableHeadingColor(array $field): string
     {
-
-        if (!isset($field[FieldConstants::FIELD_HEADER_COLOR])) {
-            return TableConfig::$HEADER_COLOR->value;
+        if (isset($field[FieldConstants::FIELD_HEADER_COLOR])) {
+            if (is_callable($field[FieldConstants::FIELD_HEADER_COLOR])) {
+                if (!is_null($field[FieldConstants::FIELD_HEADER_COLOR]($field))) {
+                    return $field[FieldConstants::FIELD_HEADER_COLOR]($field)->value;
+                }
+            } else {
+                return $field[FieldConstants::FIELD_HEADER_COLOR]->value;
+            }
         }
 
-        if (is_callable($field[FieldConstants::FIELD_HEADER_COLOR])) {
-            $color_enum = $field[FieldConstants::FIELD_HEADER_COLOR]($field);
-        } else {
-            $color_enum = $field[FieldConstants::FIELD_HEADER_COLOR];
-        }
-
-        return $color_enum->value;
+        return TableConfig::$HEADER_COLOR->value;
     }
 
     public static function getTableDividerRow(array $column_lengths): string
@@ -138,9 +137,12 @@ class RowFormatHelper
 
         if (isset($field[FieldConstants::FIELD_COLUMN_COLOR])) {
             if (is_callable($field[FieldConstants::FIELD_COLUMN_COLOR])) {
-                return $field[FieldConstants::FIELD_COLUMN_COLOR]($datum, $field)->value;
+                if (!is_null($field[FieldConstants::FIELD_COLUMN_COLOR]($datum, $field))) {
+                    return $field[FieldConstants::FIELD_COLUMN_COLOR]($datum, $field)->value;
+                }
+            } else {
+                return $field[FieldConstants::FIELD_COLUMN_COLOR]->value;
             }
-            return $field[FieldConstants::FIELD_COLUMN_COLOR]->value;
         }
 
         return TableConfig::$CELL_COLOR->value;
