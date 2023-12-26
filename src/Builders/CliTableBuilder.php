@@ -75,7 +75,7 @@ class CliTableBuilder
 
     private function generate(): string
     {
-        if (!isset($data)) {
+        if (!isset($this->data)) {
             throw new UndefinedDataException("Data has not been initialized. Did you forget to call setData()?");
         }
 
