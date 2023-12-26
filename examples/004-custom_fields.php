@@ -10,16 +10,12 @@ require_once "000-data.php";
 
 $fields = [
     [
-        FieldConstants::FIELD_KEY => 'id',
-        FieldConstants::FIELD_NAME => 'ID',
+        FieldConstants::FIELD_KEY => 'todo',
+        FieldConstants::FIELD_NAME => 'To-do',
     ],
     [
-        FieldConstants::FIELD_KEY => 'email',
-        FieldConstants::FIELD_NAME => 'Email Address',
-    ],
-    [
-        FieldConstants::FIELD_KEY => 'ip_address',
-        FieldConstants::FIELD_NAME => 'IP Address',
+        FieldConstants::FIELD_KEY => 'completed',
+        FieldConstants::FIELD_NAME => 'Completed',
     ],
 ];
 

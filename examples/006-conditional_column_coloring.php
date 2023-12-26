@@ -15,22 +15,21 @@ $fields = [
         FieldConstants::FIELD_NAME => 'ID',
     ],
     [
-        FieldConstants::FIELD_KEY => 'first_name',
-        FieldConstants::FIELD_NAME => 'First Name',
+        FieldConstants::FIELD_KEY => 'todo',
+        FieldConstants::FIELD_NAME => 'To-do',
     ],
     [
-        FieldConstants::FIELD_KEY => 'last_name',
-        FieldConstants::FIELD_NAME => 'Last Name',
-    ],
-    [
-        FieldConstants::FIELD_KEY => 'gender',
-        FieldConstants::FIELD_NAME => 'Gender',
+        FieldConstants::FIELD_KEY => 'completed',
+        FieldConstants::FIELD_NAME => 'Completed',
         FieldConstants::FIELD_COLUMN_COLOR => function ($datum): TextColorEnum {
-            return match ($datum['gender']) {
-                'Female' => TextColorEnum::MAGENTA,
-                'Male' => TextColorEnum::BLUE,
+            return match ($datum['completed']) {
+                'YES' => TextColorEnum::GREEN,
+                'NO' => TextColorEnum::RED,
                 default => TextColorEnum::WHITE
             };
+        },
+        FieldConstants::FIELD_FORMATTER => function ($datum): string {
+            return $datum['completed'] == 1 ? "YES" : "NO";
         },
     ],
 ];

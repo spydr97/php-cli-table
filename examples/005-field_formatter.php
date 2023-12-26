@@ -10,21 +10,14 @@ require_once "000-data.php";
 
 $fields = [
     [
-        FieldConstants::FIELD_KEY => 'id',
-        FieldConstants::FIELD_NAME => 'ID',
+        FieldConstants::FIELD_KEY => 'todo',
+        FieldConstants::FIELD_NAME => 'To-do',
     ],
     [
-        FieldConstants::FIELD_KEY => 'full_name',
+        FieldConstants::FIELD_KEY => 'completed',
         FieldConstants::FIELD_FORMATTER => function ($datum): string {
-            return $datum['first_name'] . ' ' . $datum['last_name'];
+            return $datum['completed'] == 1 ? "YES" : "NO";
         },
-    ],
-    [
-        FieldConstants::FIELD_KEY => 'gender',
-    ],
-    [
-        FieldConstants::FIELD_KEY => 'ip_address',
-        FieldConstants::FIELD_NAME => 'IP Address',
     ],
 ];
 
