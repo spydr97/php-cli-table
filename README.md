@@ -53,6 +53,23 @@ $data = [
     ->build();
 ```
 
+### Builder Methods
+
+In the absence of proper documentation, (I haven't decided how I want to do that just yet) here are the methods exposed
+by the `CliTableBuilder` that can be used to manipulate the resultant table. 
+
+- `setData(array $data)` - sets the data array to populate the table
+- `setFields(array $fields)` - sets the fields array to define table columns
+- `setBorderColor(TextColorEnum $color)` - sets the color of the table border
+- `setHeaderColor(TextColorEnum $color)` - sets the default color of each table heading (superseded by the 
+`FIELD_HEADER_COLOR` property in a field definition)
+- `setCellColor(TextColorEnum $color)` - sets the default color of each table cell (superseded by the 
+`FIELD_COLUMN_COLOR` property in a field definition or `DATA_COLOR` property in a data item)
+- `setEmptyCellPlaceholder(string $empty_cell_placeholder)` - sets the text to show when the particular data item value
+does not exist
+- `setShowHeader(bool $show_header)` - sets whether to show or hide table headings
+- `build()` - validates data and prints the table to the console
+
 ### Colors
 
 Colors are defined in the `\Spydr97\PhpCliTable\TextColorEnum` class. The following colors are available
@@ -80,7 +97,7 @@ color of the particular row. This can either be of type `TextColorEnum` or `Clos
 then the color is applied on the whole row. If a `Closure` is used the color can either be applied to the whole 
 row or to specific fields.
 
-A `DataConstants::DATA_COLOR` closure is provided two params, `$datum` amd `$field` which correspond to the current 
+A `DataConstants::DATA_COLOR` closure is provided two params, `$datum` and `$field` which correspond to the current 
 data row item and column field definition respectively. The return type of this closure must be either a 
 `TextColorEnum` or `null`.
 
